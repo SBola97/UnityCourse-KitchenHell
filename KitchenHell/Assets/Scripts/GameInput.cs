@@ -12,7 +12,7 @@ public class GameInput : MonoBehaviour
     public Vector2 GetMovementVectorNormalized(){
         
         Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-
+        //Prevents from moving faster on diagonal
         inputVector = inputVector.normalized;
 
 /*         if (Input.GetKey(KeyCode.W))
