@@ -8,6 +8,7 @@ public class SelectedCounterVisual : MonoBehaviour
     [SerializeField] private ClearCounter clearCounter;
     [SerializeField] private GameObject visualGameObject;
     private void Start(){
+        //Listens the event to the single one player instance
         Player.Instance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;  
     }
      

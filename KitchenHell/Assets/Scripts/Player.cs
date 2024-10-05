@@ -29,7 +29,8 @@ public class Player : MonoBehaviour
 
     // Start is called before the first frame update
     private void Start(){
-        gameInput.OnInteractAction += GameInput_OnInteraction;
+        //Listens the event for interactions
+        gameInput.OnInteractAction += GameInput_OnInteraction; 
     }
 
     private void GameInput_OnInteraction(object sender, EventArgs e){
@@ -76,9 +77,11 @@ public class Player : MonoBehaviour
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
         float moveDistance = moveSpeed * Time.deltaTime;
+
         //Sets de size of the player
         float playerRadius = .7f;
         float playerHeight = 2f;
+
         //Verifies if there is something on his way preventing from moving
         bool canMove = !Physics.CapsuleCast(
             transform.position,
