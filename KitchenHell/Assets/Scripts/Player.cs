@@ -13,14 +13,16 @@ public class Player : MonoBehaviour
     public class OnSelectedCounterChangedEventArgs : EventArgs{
         public ClearCounter selectedCounter;
     }
+
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask countersLayerMask;
+    
     private bool isWalking;
     private Vector3 lastInteractDir;
     private ClearCounter selectedCounter;
 
-    private void Awake() {
+    private void Awake(){
         if(Instance != null){
             Debug.LogError("There is more than 1 Player instance");
         }
