@@ -2,40 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearCounter : MonoBehaviour
+public class ClearCounter : MonoBehaviour, IKitchenObjectParent
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
     [SerializeField] private Transform counterTopPoint;
-    [SerializeField] private ClearCounter secondClearCounter;
-    [SerializeField] private bool testing;
 
-    private KitchenObject kitchenObject; //To know if there is a kitchenObject on top of it
+    private KitchenObject kitchenObject;//To know if there is a kitchenObject on top of it
 
-    private void Update(){
-        if(testing && Input.GetKeyDown(KeyCode.T)){
-            if(kitchenObject != null){
-                //Set the kitchenObject to a different parent (clearCounter)
-                kitchenObject.setClearCounter(secondClearCounter);
-            }
-        }
-    }
-    public void Interact(){
+    public void Interact(Player player){
         if(kitchenObject == null){
-            //Spawns the object and puts it exactly on top of a counter
+            //Spawns the object and puts it exactly on top of a ClearCounter
             Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab,counterTopPoint); 
-            kitchenObjectTransform.GetComponent<KitchenObject>().setClearCounter(this);
+            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(this);
         }
         else{
-            Debug.Log(kitchenObject.GetClearCounter()); 
-        }
-        
+            //Gives the object to the Player
+            kitchenObject.SetKitchenObjectParent(player); 
+        }   
     }
 
     public Transform GetKitchenObjectFollowTransform(){
         return counterTopPoint;
     }
 
-    public void setKitchenObject(KitchenObject kitchenObject){
+    public void SetKitchenObject(KitchenObject kitchenObject){
         this.kitchenObject = kitchenObject;
     }
 
@@ -43,11 +33,11 @@ public class ClearCounter : MonoBehaviour
         return kitchenObject;
     }
 
-    public void clearKitchenObject(){
+    public void ClearKitchenObject(){
         kitchenObject = null;
     }
 
-    public bool hasKitchenObject(){
+    public bool HasKitchenObject(){
         return kitchenObject != null;
     }
 }
