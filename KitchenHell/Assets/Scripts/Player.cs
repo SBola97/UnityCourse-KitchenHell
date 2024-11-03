@@ -34,7 +34,15 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     // Start is called before the first frame update
     private void Start(){
         //Listens the event for interactions
-        gameInput.OnInteractAction += GameInput_OnInteraction; 
+        gameInput.OnInteractAction += GameInput_OnInteraction;
+        gameInput.OnInteractAlternateAction += GameInput_OnInteractionAlternate; 
+    }
+
+    private void GameInput_OnInteractionAlternate(object sender, EventArgs e)
+    {
+        if(selectedCounter != null){
+            selectedCounter.InteractAlternate(this);
+        }
     }
 
     private void GameInput_OnInteraction(object sender, EventArgs e){
@@ -101,7 +109,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             //Attempt only X movement
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
 
-            canMove = !Physics.CapsuleCast(
+            canMove = moveDir.x != 0 && !Physics.CapsuleCast(
             transform.position,
             transform.position + Vector3.up * playerHeight,
             playerRadius,
@@ -118,7 +126,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
                 //Attempt only Z movement
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
 
-                canMove = !Physics.CapsuleCast(
+                canMove = moveDir.z != 0 && !Physics.CapsuleCast(
                 transform.position,
                 transform.position + Vector3.up * playerHeight,
                 playerRadius,
