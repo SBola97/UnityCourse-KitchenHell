@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DeliveryManager : MonoBehaviour
 {
+    public static DeliveryManager Instance {get;private set;}
     [SerializeField] private RecipeListSO recipeListSO;
     private List<RecipeSO> waitingRecipeSOList;
 
@@ -13,6 +14,7 @@ public class DeliveryManager : MonoBehaviour
     private float waitingRecipesMax = 4f;
 
     private void Awake() {
+        Instance = this;
         waitingRecipeSOList = new List<RecipeSO>();
     }
 
@@ -30,5 +32,35 @@ public class DeliveryManager : MonoBehaviour
         }
     }
 
+    public void DeliverRecipe(PlateKitchenObject plateKitchenObject){
+       for (int i = 0; i < waitingRecipeSOList.Count; i++){
+        RecipeSO waitingRecipeSO = waitingRecipeSOList[i];
+        //Looks for same number of ingredients
+        if(waitingRecipeSO.kitchenObjectSOList.Count == plateKitchenObject.getKitchenSOList().Count){
+            bool plateContentMatchesRecipe = true;
+            //Cycles through all ingredients in the Recipe
+            foreach (KitchenObjectSO recipeIngredient in waitingRecipeSO.kitchenObjectSOList){
+                bool ingredientFound = false;
+                //Cycles through all ingredients in the Plate
+                foreach (KitchenObjectSO plateIngredient in plateKitchenObject.getKitchenSOList()){
+                    if(recipeIngredient == plateIngredient){
+                        ingredientFound = true;
+                        break;
+                    }
+                }
+                if(!ingredientFound){
+                    plateContentMatchesRecipe = false;
+                }
+            }
+            if(plateContentMatchesRecipe){
+                Debug.Log("[Recipe] " + waitingRecipeSO.recipeName + " was successfully delivered");
+                waitingRecipeSOList.RemoveAt(i);
+                return;
+            }
+        }
+       }
+       Debug.Log("No recipe matches, recipe rejected!");
+
+    }
 
 }
