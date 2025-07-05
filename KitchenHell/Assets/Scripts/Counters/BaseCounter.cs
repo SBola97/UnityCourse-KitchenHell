@@ -21,8 +21,7 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
         return counterTopPoint;
     }
 
-    public void SetKitchenObject(KitchenObject kitchenObject)
-    {
+    public void SetKitchenObject(KitchenObject kitchenObject){
         this.kitchenObject = kitchenObject;
         if (kitchenObject != null){
             OnAnyObjectPlacedHere?.Invoke(this, EventArgs.Empty);
