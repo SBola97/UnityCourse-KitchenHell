@@ -40,13 +40,15 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     }
 
     private void GameInput_OnInteractionAlternate(object sender, EventArgs e){
+        if(!GameHandler.Instance.IsGamePlaying()) return;
         if(selectedCounter != null){
             selectedCounter.InteractAlternate(this);
         }
     }
 
     private void GameInput_OnInteraction(object sender, EventArgs e){
-        if(selectedCounter != null){
+        if (!GameHandler.Instance.IsGamePlaying()) return;
+        if (selectedCounter != null){
             selectedCounter.Interact(this);
         }
     }
